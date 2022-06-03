@@ -9,8 +9,8 @@ import {
 
 const ProductDetails = () => {
   const { productId } = useParams();
-  let product = useSelector((state) => state.product);
-  const { image, title, price, category, description } = product.payload;
+  let product = useSelector((state) => state.product.payload);
+  const { image, title, price, category, description } = product;
   const dispatch = useDispatch();
   const fetchProductDetail = async (id) => {
     const response = await axios
