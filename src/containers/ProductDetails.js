@@ -1,40 +1,45 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   removeSelectedProducts,
-  selectedProducts
-} from "../redux/actions/productActions";
+  selectedProducts,
+} from '../redux/actions/productActions';
+
 const ProductDetails = () => {
   const { productId } = useParams();
   let product = useSelector((state) => state.product);
-  const { image, title, price, category, description } = product;
+  const { image, title, price, category, description } = product.payload;
   const dispatch = useDispatch();
   const fetchProductDetail = async (id) => {
     const response = await axios
       .get(`https://fakestoreapi.com/products/${id}`)
       .catch((err) => {
-        console.log("Err: ", err);
+        console.log('Err: ', err);
       });
     dispatch(selectedProducts(response.data));
   };
   useEffect(() => {
-    if (productId && productId !== "") fetchProductDetail(productId);
-    return () => {
-      dispatch(removeSelectedProducts());
-    };
+    if (productId && productId !== '') {
+      fetchProductDetail(productId);
+    }
+    else{
+      return () => {
+        dispatch(removeSelectedProducts());
+      };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
   return (
     <div className="ui grid container">
+      {product.price}
       {Object.keys(product).length === 0 ? (
         <div>...Loading</div>
       ) : (
-        <div className="ui placeholder segment">
+        <div className="ui placeholder segment" style={{ marginTop: '4em' }}>
           <div className="ui two column stackable center aligned grid">
-            <div className="ui vertical divider">AND</div>
             <div className="middle aligned row">
               <div className="column lp">
                 <img className="ui fluid image" src={image} />
