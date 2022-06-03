@@ -25,10 +25,10 @@ const ProductDetails = () => {
       fetchProductDetail(productId);
     }
     else{
-      return () => {
-        dispatch(removeSelectedProducts());
-      };
-    }
+    return () => {
+     // dispatch(removeSelectedProducts());
+    };
+  }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
